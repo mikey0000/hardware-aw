@@ -78,7 +78,7 @@
 #define SETUP_INTERVAL_TR 100000
 #define SETUP_TIMES  60
 /* mali400 power is DE 15 times*/
-#define DE_GPU_PW_FACTOR  15 
+#define DE_GPU_PW_FACTOR  15
 #define DE_GPU_MEM_FACTOR  2
 
 #define container_of(type, member)({\
@@ -97,12 +97,12 @@ typedef enum
 	ASSIGN_OVERLAY,
 	ASSIGN_CURSOR,
 	ASSIGN_FORCE_GPU,
- 
+
 	ASSIGN_NEEDREASSIGNED,
     ASSIGN_FAILED,
 } HwcAssignStatus;
 
-/*for kernel dev_composer.c*/ 
+/*for kernel dev_composer.c*/
 enum {
     HWC_SYNC_NEED = -2,
     HWC_SYNC_INIT = -1,
@@ -178,7 +178,7 @@ typedef struct{
 	    long long top;
 	    long long bottom;
 }rect64;
- 
+
 typedef struct {
     int                 fd;
     unsigned int        sync_cnt;
@@ -222,7 +222,7 @@ typedef struct {
     int             outbufAcquireFenceFd;
 }vir_data_t;
 
-typedef struct 
+typedef struct
 {
     list_head_t             commit_head;
     list_head_t             manage_head;
@@ -313,7 +313,7 @@ typedef struct{
     bool                issecure;
     bool                active;
     bool                setblank;
-    
+
     int                 HwChannelNum;
     int                 LayerNumofCH;
     int                 VideoCHNum;
@@ -331,7 +331,7 @@ typedef struct{
     unsigned char       SetPersentHeight;
     unsigned char       PersentWidth;
     unsigned char       PersentHeight;
-    
+
     int                 DisplayType;
     disp_tv_mode        DisplayMode;
     __display_3d_mode   Current3DMode;
@@ -339,7 +339,7 @@ typedef struct{
 
 }DisplayInfo;
 
-typedef struct{    
+typedef struct{
     bool                UsedFB;
     bool                use_wb;
     bool                fb_has_alpha;
@@ -354,7 +354,7 @@ typedef struct{
     unsigned char       unasignedVideo;
     float               WidthScaleFactor;
     float               HighetScaleFactor;
-    
+
     layer_info_t        *psAllLayer;
     int                 malloc_layer;
     int                 numberofLayer;
@@ -372,7 +372,7 @@ typedef struct{
     /* end memory ctrl */
 }HwcDisContext_t;
 
-typedef struct 
+typedef struct
 {
     /*
     usually:  display 1: LCD
@@ -409,7 +409,7 @@ typedef struct
     int                 memlimit;
     int                 max_mem_limit;
 
-    bool                CanForceGPUCom;   
+    bool                CanForceGPUCom;
     bool                ForceGPUComp[NUMBEROFDISPLAY];
     bool                stop_hwc;
     bool                stop_rotate_hw;
@@ -417,9 +417,9 @@ typedef struct
     bool                hot_plug;
 
     int                 NumberofDisp;
-    DisplayInfo         *SunxiDisplay;// 0 is HWC_DISPLAY_PRIMARY,1 is HWC_DISPLAY_EXTERNAL,2 is HWC_DISPLAY_VIRTUAL 
+    DisplayInfo         *SunxiDisplay;// 0 is HWC_DISPLAY_PRIMARY,1 is HWC_DISPLAY_EXTERNAL,2 is HWC_DISPLAY_VIRTUAL
     HwcDisContext_t     *DisContext;//0 is the DE0, 1 is DE1,2 is   HWC_DISPLAY_VIRTUAL
- 
+
     list_head_t         CommitHead;
     pthread_mutex_t     HeadLock;
 
@@ -463,7 +463,7 @@ typedef struct
 
 }SUNXI_hwcdev_context_t;
 
-typedef struct 
+typedef struct
 {
     int             type;// bit3:cvbs, bit2:ypbpr, bit1:vga, bit0:hdmi
     disp_tv_mode    mode;
@@ -478,7 +478,7 @@ typedef enum
     WIDTH=2,
     HEIGHT,
     REFRESHRAE,
- 
+
 }MODEINFO;
 
 typedef enum{
@@ -539,7 +539,7 @@ inline void hwc_list_move(list_head_t *oldhead, list_head_t *newhead)
 
 static inline bool check_video(int format)
 {
-    switch(format) 
+    switch(format)
     {
         case HAL_PIXEL_FORMAT_YV12:
 	    case HAL_PIXEL_FORMAT_YCrCb_420_SP:
@@ -547,7 +547,7 @@ static inline bool check_video(int format)
             return 1;
         default:
             return 0;
-    } 
+    }
 }
 
 static inline int check_usage_sw_read(struct private_handle_t *psHandle)
@@ -577,7 +577,7 @@ static inline bool cursor_flags(hwc_layer_1_t *layer)
 
 static inline int check_cursor_format(int format)
 {
-    switch(format) 
+    switch(format)
     {
         case HAL_PIXEL_FORMAT_RGBA_8888:
         case HAL_PIXEL_FORMAT_BGRA_8888:
@@ -596,7 +596,7 @@ static inline bool check_cursor(hwc_layer_1_t *layer, int order, int count)
 
 static inline int check_valid_format(int format)
 {
-    switch(format) 
+    switch(format)
     {
         case HAL_PIXEL_FORMAT_RGBA_8888:
         case HAL_PIXEL_FORMAT_RGBX_8888:
@@ -683,7 +683,7 @@ bool static inline check_3d_video(const DisplayInfo *PsDisplayInfo, hwc_layer_1_
 
 static inline bool check_support_blending(int format)
 {
-    switch(format) 
+    switch(format)
     {
         case HAL_PIXEL_FORMAT_RGBA_8888:
         case HAL_PIXEL_FORMAT_RGBX_8888:
@@ -748,11 +748,11 @@ static int inline cal_layer_mem(layer_info_t *hw_layer)
 {
     hwc_layer_1_t *psLayer = hw_layer->psLayer;
 #ifdef HWC_1_3
-    return (psLayer->sourceCropf.right - psLayer->sourceCropf.left) 
-             * (psLayer->sourceCropf.bottom - psLayer->sourceCropf.top) 
+    return (psLayer->sourceCropf.right - psLayer->sourceCropf.left)
+             * (psLayer->sourceCropf.bottom - psLayer->sourceCropf.top)
              * hw_layer->form_info.bpp / 8;
 #else
-    return (psLayer->sourceCrop.right - psLayer->sourceCrop.left) 
+    return (psLayer->sourceCrop.right - psLayer->sourceCrop.left)
             * (psLayer->sourceCrop.bottom - psLayer->sourceCrop.top)
             * hw_layer->form_info.bpp / 8;
 #endif
@@ -821,5 +821,7 @@ extern bool hwc_format_info(format_info *m_format_info, int format);
 extern bool mem_ctrl_power_policy(SUNXI_hwcdev_context_t *Globctx, HwcDisContext_t *localctx);
 extern void mem_adjust_moment(SUNXI_hwcdev_context_t *Globctx,
         int diff_all, int lower_limit, int high_limit, bool updata);
+
+extern int hwc_get_density(int width, int height);
 
 #endif
