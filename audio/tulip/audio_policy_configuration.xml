@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<audioPolicyConfiguration version="1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <globalConfiguration speaker_drc_enabled="true"/>
+    <modules>
+        <module name="primary" halVersion="3.0">
+            <attachedDevices>
+                <item>HDMI</item>
+            </attachedDevices>
+            <defaultOutputDevice>HDMI</defaultOutputDevice>
+            <mixPorts>
+                <mixPort name="hdmi output" role="source">
+                    <profile name="" format="AUDIO_FORMAT_PCM_16_BIT" samplingRates="48000"/>
+                </mixPort>
+            </mixPorts>
+            <devicePorts>
+                <devicePort tagName="HDMI Out" type="AUDIO_DEVICE_OUT_AUX_DIGITAL" role="sink">
+                    <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
+                             samplingRates="48000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
+                </devicePort>
+            </devicePorts>
+            <routes>
+                <route type="mix" sink="HDMI Out"
+                       sources="hdmi output"/>
+            </routes>
+            <devicePorts>
+                <devicePort tagName="Wired Headset" type="AUDIO_DEVICE_OUT_WIRED_HEADSET" role="sink">
+                    <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
+                             samplingRates="48000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
+                </devicePort>
+                <devicePort tagName="Wired Headset Mic" type="AUDIO_DEVICE_IN_WIRED_HEADSET" role="source">
+                    <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
+                             samplingRates="8000,16000,48000"
+                             channelMasks="AUDIO_CHANNEL_IN_MONO"/>
+                </devicePort>
+            </devicePorts>
+            <routes>
+                <route type="mix" sink="HDMI Out" sources="primary output"/>
+                <route type="mix" sink="Wired Headset" sources="primary output"/>
+                <route type="mix" sink="primary input" sources="Wired Headset Mic"/>
+            </routes>
+        </module>
+        <xi:include href="a2dp_audio_policy_configuration.xml"/>
+        <xi:include href="usb_audio_policy_configuration.xml"/>
+        <xi:include href="r_submix_audio_policy_configuration.xml"/>
+    </modules>
+
+    <xi:include href="audio_policy_volumes.xml"/>
+    <xi:include href="default_volume_tables.xml"/>
+</audioPolicyConfiguration>
